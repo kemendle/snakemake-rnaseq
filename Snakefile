@@ -7,7 +7,7 @@ configfile: 'config.yaml'
 # Globals                                                                      #
 ################################################################################
 
-samples = pd.read_csv('samples.tsv', sep='\t')
+samples = pd.read_csv('test/samples.tsv', sep='\t')
 is_paired = "fastq2" in samples.columns
 
 

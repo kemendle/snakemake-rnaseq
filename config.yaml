@@ -4,7 +4,7 @@
 
 input:
   # Optional: input directory to use for fastq files (for local input files).
-  dir: 'input'
+  dir: 'test/input'
 
   # Optional: configuration to use for remote (FTP) input files.
   # ftp:
