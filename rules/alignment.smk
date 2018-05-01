@@ -1,5 +1,5 @@
-def star_inputs(wildcards):
-    """Returns fastq inputs for star."""
+def hisat2_inputs(wildcards):
+    """Returns fastq inputs for hisat2."""
 
     base_path = "fastq/trimmed/{sample}.{replicate}.{{pair}}.fastq.gz".format(
         sample=wildcards.sample, replicate=wildcards.replicate)
@@ -8,23 +8,36 @@ def star_inputs(wildcards):
     return expand(base_path, pair=pairs)
 
 
-def star_extra(star_config):
-    """Returns extra arguments for STAR based on config."""
+def hisat2_extra(hisat2_config):
+    """Returns extra arguments for hisat2 based on config."""
 
-    extra = star_config.get("extra", "")
-
-    # Add readgroup information.
-    extra_args = "--outSAMattrRGline " + star_config["readgroup"]
-
-    # Add NM SAM attribute (required for PDX pipeline).
-    if "--outSamAttributes" not in extra:
-        extra_args += " --outSAMattributes NH HI AS nM NM"
+    extra = hisat2_config.get("extra", "")
 
     # Add any extra args passed by user.
     if extra:
         extra_args += " " + extra
+    else:
+        extra_args = extra
 
     return extra_args
+
+
+rule hisat2_align:
+    input:
+        sample=hisat2_inputs,
+    output:
+        temp("bam/hisat2/{sample}.{replicate}/Aligned.out.bam")
+    log:
+        "logs/hisat2/{sample}.{replicate}.log"
+    params:
+        idx=config["hisat2"]["index"],
+        extra=hisat2_extra(config["hisat2"])
+    resources:
+        memory=30
+    threads:
+        config["hisat2"]["threads"]
+    wrapper:
+        "0.17.0/bio/hisat2/align"
 
 
 rule sambamba_sort:
