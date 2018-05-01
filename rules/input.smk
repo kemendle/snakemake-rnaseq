@@ -15,16 +15,16 @@ def input_path(wildcards):
         raise ValueError("Unexpected value for pair wildcard ({})"
                          .format(wildcards.pair))
 
-    # Lookup sample for given lane/sample ids.
-    subset = samples.query('sample == {!r} and lane == {!r}'
-                           .format(wildcards.sample, wildcards.lane))
+    # Lookup sample for given replicate/sample ids.
+    subset = samples.query('sample == {!r} and replicate == {!r}'
+                           .format(wildcards.sample, wildcards.replicate))
 
     if len(subset) > 1:
         raise ValueError('Multiple samples found for {}/{}'
-                         .format(wildcards.sample, wildcards.lane))
+                         .format(wildcards.sample, wildcards.replicate))
     elif len(subset) == 0:
         raise ValueError('No samples found for {}/{}'
-                         .format(wildcards.sample, wildcards.lane))
+                         .format(wildcards.sample, wildcards.replicate))
 
     # Extract file_path.
     fastq_col = "fastq1" if wildcards.pair == "R1" else "fastq2"
@@ -57,7 +57,7 @@ rule copy_input:
     input:
         input_path
     output:
-        temp("fastq/raw/{sample}.{lane}.{pair}.fastq.gz")
+        temp("fastq/raw/{sample}.{replicate}.{pair}.fastq.gz")
     resources:
         io=1
     shell:

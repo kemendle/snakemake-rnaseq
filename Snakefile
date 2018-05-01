@@ -20,15 +20,15 @@ def get_samples():
     return list(samples["sample"].unique())
 
 
-def get_samples_with_lane():
-    """Returns list of all combined lane/sample identifiers."""
-    return list((samples["sample"] + "." + samples["lane"]).unique())
+def get_samples_with_replicate():
+    """Returns list of all combined replicate/sample identifiers."""
+    return list((samples["sample"] + "." + samples["replicate"]).unique())
 
 
-def get_sample_lanes(sample):
-    """Returns lanes for given sample."""
+def get_sample_replicates(sample):
+    """Returns replicates for given sample."""
     subset = samples.loc[samples["sample"] == sample]
-    return list(subset["lane"].unique())
+    return list(subset["replicate"].unique())
 
 
 ################################################################################

@@ -2,13 +2,15 @@ from os import path
 
 
 def multiqc_inputs(wildcards):
+    """Returns inputs for multiqc, which vary depending on whether the
+    data is paired."""
 
     inputs = [
-        expand("qc/fastqc/{sample_lane}.{pair}_fastqc.html",
-               sample_lane=get_samples_with_lane(),
+        expand("qc/fastqc/{sample_replicate}.{pair}_fastqc.html",
+               sample_replicate=get_samples_with_replicate(),
                pair=["R1", "R2"] if is_paired else ["R1"]),
-        expand("qc/cutadapt/{sample_lane}.txt",
-               sample_lane=get_samples_with_lane()),
+        expand("qc/cutadapt/{sample_replicate}.txt",
+               sample_replicate=get_samples_with_replicate()),
         expand("qc/samtools_stats/{sample}.txt", sample=get_samples())
     ]
 
@@ -35,10 +37,10 @@ rule multiqc:
 
 rule fastqc:
     input:
-        "fastq/trimmed/{sample}.{lane}.{pair}.fastq.gz"
+        "fastq/trimmed/{sample}.{replicate}.{pair}.fastq.gz"
     output:
-        html="qc/fastqc/{sample}.{lane}.{pair}_fastqc.html",
-        zip="qc/fastqc/{sample}.{lane}.{pair}_fastqc.zip"
+        html="qc/fastqc/{sample}.{replicate}.{pair}_fastqc.html",
+        zip="qc/fastqc/{sample}.{replicate}.{pair}_fastqc.zip"
     params:
         config["fastqc"]["extra"]
     wrapper:

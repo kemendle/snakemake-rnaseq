@@ -30,13 +30,8 @@ cutadapt_pe:
     -q 20
     --minimum-length 20
 
-star:
+hisat2:
   index: '/path/to/index'
-  # Host genome index, only required for PDX processing.
-  # index_host: '/path/to/host_index'
-  readgroup: >-
-    ID:{sample}.{lane} SM:{sample} LB:{sample}
-    PU:{sample}.{lane} PL:ILLUMINA CN:CENTRE
   extra: ""
   threads: 10
 
