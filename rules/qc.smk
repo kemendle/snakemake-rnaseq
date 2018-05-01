@@ -2,8 +2,6 @@ from os import path
 
 
 def multiqc_inputs(wildcards):
-    """Returns inputs for multiqc, which vary depending on whether pipeline
-       is processing normal or PDX data and whether the data is paired."""
 
     inputs = [
         expand("qc/fastqc/{sample_lane}.{pair}_fastqc.html",
