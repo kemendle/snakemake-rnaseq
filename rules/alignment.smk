@@ -24,7 +24,7 @@ def hisat2_extra(hisat2_config):
 
 rule hisat2_align:
     input:
-        sample=hisat2_inputs,
+        reads=hisat2_inputs,
     output:
         temp("bam/hisat2/{sample}.{replicate}/Aligned.out.bam")
     log:
@@ -37,7 +37,7 @@ rule hisat2_align:
     threads:
         config["hisat2"]["threads"]
     wrapper:
-        "0.17.0/bio/hisat2/align"
+        "0.17.0/bio/hisat2"
 
 
 rule sambamba_sort:
