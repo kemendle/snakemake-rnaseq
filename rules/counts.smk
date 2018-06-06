@@ -44,25 +44,26 @@ def feature_counts_extra(wildcards):
 
 rule feature_counts:
     input:
-        bam="bam/final/{sample}.bam",
-        bai="bam/final/{sample}.bam.bai",
+        bam="bam/sorted/{sample}.{replicate}.bam",
+        bai="bam/sorted/{sample}.{replicate}.bam.bai",
     output:
-        counts="counts/per_sample/{sample}.txt",
-        summary="qc/feature_counts/{sample}.txt"
+        counts="counts/per_sample/{sample}.{replicate}.txt",
+        summary="qc/feature_counts/{sample}.{replicate}.txt"
     params:
         annotation=config["feature_counts"]["annotation"],
         extra=feature_counts_extra
     threads:
         config["feature_counts"]["threads"]
     log:
-        "logs/feature_counts/{sample}.txt"
+        "logs/feature_counts/{sample}.{replicate}.txt"
     wrapper:
         "file:" + path.join(workflow.basedir, "wrappers/subread/feature_counts")
 
 
 rule merge_counts:
     input:
-        expand("counts/per_sample/{sample}.txt", sample=get_samples())
+        expand("counts/per_sample/{sample_replicate}.txt",
+            sample_replicate=get_samples_with_replicate())
     output:
         "counts/merged.txt"
     run:
