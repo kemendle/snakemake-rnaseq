@@ -57,7 +57,7 @@ rule feature_counts:
     log:
         "logs/feature_counts/{sample}.txt"
     wrapper:
-        "file://" + path.join(workflow.basedir, "wrappers/subread/feature_counts")
+        "file:" + path.join(workflow.basedir, "wrappers/subread/feature_counts")
 
 
 rule merge_counts:
