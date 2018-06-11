@@ -2,4 +2,5 @@ import subprocess
 
 
 def test_pipeline():
-    subprocess.check_call(["snakemake -s ../Snakefile", "-n"])
+    subprocess.call("cd ..")
+    subprocess.check_call(["snakemake", "-n"])
