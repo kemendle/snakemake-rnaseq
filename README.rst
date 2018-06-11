@@ -1,18 +1,19 @@
-Snakemake-exome
-===============
+Snakemake-RNAseq
+================
 
 |Snakemake| |Wercker|
 
 This is a Snakemake workflow for generating gene expression counts from
-RNA-sequencing data using STAR and featureCounts (from the subread package).
+RNA-sequencing data using HISAT2, featureCounts (from the subread package), and DESeq2.
 The workflow is designed to handle both single-end and paired-end sequencing
-data, as well as sequencing data from multiple lanes. Processing of
-patient-derived xenograft (PDX) samples is also supported, by using
-disambiguate to separate graft/host sequence reads.
+data, as well as sequencing data from multiple replicates.
 
 If you use this workflow in a paper, don't forget to give credits
 to the authors by citing the URL of this repository and, if available, its
 DOI (see above).
+
+This project is forked from a similar project created by Jason de Ruiter but
+some of the analysis tools have been swapped out.
 
 .. |Snakemake| image:: https://img.shields.io/badge/snakemake-≥3.13.3-brightgreen.svg
    :target: https://snakemake.bitbucket.io
@@ -23,34 +24,29 @@ DOI (see above).
 Overview
 --------
 
-The standard (non-PDX) workflow essentially performs the following steps:
+The pipeline performs the following steps:
 
 * Cutadapt is used to trim the input reads for adapters and/or poor-quality
-  base calls.
-* The trimmed reads are aligned to the reference genome using STAR.
-* The resulting alignments are sorted and indexed using sambamba.
-* featureCounts is used to generate gene expression counts.
-* The (per sample) counts are merged into a single count file.
+  base calls
+* The trimmed reads are aligned to the reference genome using HISAT2
+* The resulting alignments are sorted and indexed using sambamba
+* featureCounts is used to generate gene expression counts
+* The (per sample) counts are merged into a single count file
 * The merged counts are normalized for differences in sequencing depth (using
-  DESeq's median-of-ratios approach) and log-transformed.
+  DESeq's median-of-ratios approach) and log-transformed
 
 This results in the following dependency graph:
 
-.. image:: https://jrderuiter.github.io/snakemake-rnaseq/_images/dag.svg
-
-The PDX workflow is a slightly modified version of the standard workflow, which
-aligns the reads to two reference genome (the host and graft reference genomes)
-and uses disambiguate_ to remove sequences originating from the host organism.
-See the documentation for more details.
+.. image:: _images/dag.svg
 
 Documentation
 -------------
 
-Documentation is available at: http://jrderuiter.github.io/snakemake-rnaseq.
+Documentation for this particular pipeline is not yet available but the documentation
+for the original pipeline by Jason de Ruiter is still relevant. It can be found at:
+http://jrderuiter.github.io/snakemake-rnaseq
 
 License
 -------
 
 This software is released under the MIT license.
-
-.. _disambiguate: https://github.com/AstraZeneca-NGS/disambiguate
