@@ -11,7 +11,7 @@ def multiqc_inputs(wildcards):
                pair=["R1", "R2"] if is_paired else ["R1"]),
         expand("qc/cutadapt/{sample_replicate}.txt",
                sample_replicate=get_samples_with_replicate()),
-        expand("qc/samtools_stats/{sample}.txt", sample=get_samples())
+        expand("qc/samtools_stats/{sample_replicate}.txt", sample_replicate=get_samples_with_replicate())
     ]
 
     return [input_ for sub_inputs in inputs for input_ in sub_inputs]
@@ -46,8 +46,8 @@ rule fastqc:
 
 rule samtools_stats:
     input:
-        "bam/final/{sample}.bam"
+        "bam/sorted/{sample}.{replicate}.bam"
     output:
-        "qc/samtools_stats/{sample}.txt"
+        "qc/samtools_stats/{sample}.{replicate}.txt"
     wrapper:
         "0.17.0/bio/samtools/stats"
