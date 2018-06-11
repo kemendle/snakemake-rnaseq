@@ -1,6 +1,7 @@
+import os.path
 import subprocess
 
 
 def test_pipeline():
-    subprocess.call("cd ..")
+    os.chdir(os.path.dirname(os.getcwd()))
     subprocess.check_call(["snakemake", "-n"])
