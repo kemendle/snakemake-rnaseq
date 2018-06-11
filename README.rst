@@ -18,8 +18,8 @@ some of the analysis tools have been swapped out.
 .. |Snakemake| image:: https://img.shields.io/badge/snakemake-≥3.13.3-brightgreen.svg
    :target: https://snakemake.bitbucket.io
 
-.. |Wercker| image:: https://app.wercker.com/status/9c3bfb4aa4dbffc027b7a0fcfc00cc57/s/develop
-   :target: https://app.wercker.com/project/byKey/9c3bfb4aa4dbffc027b7a0fcfc00cc57
+.. |Wercker| image:: https://app.wercker.com/status/fa8441e38430bced9324ae43b20d13a2/s/master
+   :target: https://app.wercker.com/project/byKey/fa8441e38430bced9324ae43b20d13a2
 
 Overview
 --------
